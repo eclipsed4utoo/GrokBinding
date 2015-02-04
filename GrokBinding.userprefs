@@ -4,7 +4,9 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="GrokBinding" expanded="True" selected="True" />
+          <Node name="GrokBinding" expanded="True" selected="True">
+            <Node name="libUGrokItApi.a" expanded="True" />
+          </Node>
         </State>
       </Pad>
     </Pads>
