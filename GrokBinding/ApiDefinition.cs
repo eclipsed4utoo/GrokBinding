@@ -9,6 +9,7 @@ using System.ComponentModel;
 namespace UGrokIt {
 
 	// @interface UgiRfidConfiguration : NSObject <NSCopying>
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiRfidConfiguration {
 
@@ -198,6 +199,7 @@ namespace UGrokIt {
 	}
 
 //	 @interface UgiJsonPropertyInfo : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiJsonPropertyInfo {
 
@@ -207,6 +209,7 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiJsonClassInfo : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiJsonClassInfo {
 
@@ -288,12 +291,14 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiJsonModelBase : NSObject <UgiJsonModel>
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiJsonModelBase : UgiJsonModel {
 
 	}
 
 	// @interface UgiPersistentJsonRoot : UgiJsonModelBase
+	[Protocol]
 	[BaseType (typeof (UgiJsonModelBase))]
 	interface UgiPersistentJsonRoot {
 
@@ -335,6 +340,7 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiEpc : NSObject <NSCopying, UgiJsonModel>
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiEpc : UgiJsonModel {
 
@@ -380,6 +386,7 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiTag : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiTag {
 
@@ -413,6 +420,7 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiDetailedPerReadData : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiDetailedPerReadData {
 
@@ -442,6 +450,7 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiInventory : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiInventory {
 
@@ -527,6 +536,7 @@ namespace UGrokIt {
 	}
 
 	// @interface UgiTagReadState : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface UgiTagReadState {
 
@@ -610,8 +620,18 @@ namespace UGrokIt {
 	}
 
 	// @interface Ugi : NSObject
+	[Protocol]
 	[BaseType (typeof (NSObject))]
 	interface Ugi {
+
+		// @property (readonly) NSObject<UgiConfigurationDelegate> * configurationDelegate;
+		[Export ("configurationDelegate")]
+		[NullAllowed]
+		NSObject WeakConfigurationDelegate { get; }
+
+		// @property (readonly) NSObject<UgiConfigurationDelegate> * configurationDelegate;
+		[Wrap ("WeakConfigurationDelegate")]
+		NSObject ConfigurationDelegate { get; }
 
 		// @property (readonly, nonatomic) BOOL inOpenConnection;
 		[Export ("inOpenConnection")]
@@ -760,6 +780,14 @@ namespace UGrokIt {
 		// @property (readonly, nonatomic) NSDate * sdkVersionDateTime;
 		[Export ("sdkVersionDateTime")]
 		NSDate SdkVersionDateTime { get; }
+
+		// +(void)createSingleton;
+		[Static, Export ("createSingleton")]
+		void CreateSingleton ();
+
+		// +(void)createSingletonWithConfigurationDelegate:(NSObject<UgiConfigurationDelegate> *)configurationDelegate;
+		[Static, Export ("createSingletonWithConfigurationDelegate:")]
+		void CreateSingletonWithConfigurationDelegate (NSObject configurationDelegate);
 
 		// +(Ugi *)singleton;
 		[Static, Export ("singleton")]
