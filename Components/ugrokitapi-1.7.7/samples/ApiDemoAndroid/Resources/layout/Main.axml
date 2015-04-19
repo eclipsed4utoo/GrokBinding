@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<!--  Top line: Open Connection and Get Config buttons -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/infoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:onClick="doInfo"
+            android:text="Info..." />
+        <TextView
+            android:id="@+id/disconnectedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Not Connected"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <Button
+            android:id="@+id/batteryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/infoButton"
+            android:layout_alignParentTop="true"
+            android:text="Battery"
+            android:onClick="doBattery"
+            android:visibility="invisible" />
+        <Button
+            android:id="@+id/configureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/batteryButton"
+            android:layout_alignParentTop="true"
+            android:text="Configure"
+            android:onClick="doConfigure"
+            android:visibility="invisible" />
+        <Button
+            android:id="@+id/audioReconfigureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/configureButton"
+            android:layout_alignParentTop="true"
+            android:text="Audio"
+            android:onClick="doAudio"
+            android:visibility="invisible" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jack"
+            android:id="@+id/jackButton"
+            android:layout_alignParentTop="true"
+            android:onClick="doJack"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+<!--  Line 2: Inventory on/off -->
+    <RelativeLayout
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/inventoryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Inventory:"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <ToggleButton
+            android:id="@+id/inventoryToggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/inventoryInfoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="29dp"
+            android:layout_toRightOf="@+id/inventoryToggleButton"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </RelativeLayout>
+<!--  Line 3: List of tags -->
+    <ListView
+        android:id="@+id/tagList"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:choiceMode="multipleChoice"
+        android:background="#444444" />
+<!--  Line 4: Program and Find Selected buttons -->
+    <RelativeLayout
+        android:id="@+id/line4"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/commissionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="doCommission"
+            android:text="Commission" />
+        <Button
+            android:id="@+id/locateTagButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/commissionButton"
+            android:onClick="doLocateTag"
+            android:text="Locate Tag" />
+        <Button
+            android:id="@+id/readTagButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/locateTagButton"
+            android:onClick="doReadTag"
+            android:text="Read Tag" />
+        <Button
+            android:id="@+id/writeTagButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Write Tag"
+            android:layout_alignParentRight="true"
+            android:onClick="doWriteTag" />
+    </RelativeLayout>
+</LinearLayout>

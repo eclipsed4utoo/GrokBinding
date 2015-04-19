@@ -92,7 +92,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="UGrokItApi_ios">
-      <HintPath>..\Components\ugrokitapi-1.7.3\lib\ios-unified\UGrokItApi_ios.dll</HintPath>
+      <HintPath>..\Components\ugrokitapi-1.7.7\lib\ios-unified\UGrokItApi_ios.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -118,7 +118,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <XamarinComponentReference Include="ugrokitapi">
-      <Version>1.7.3</Version>
+      <Version>1.7.7</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

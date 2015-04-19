@@ -1,0 +1,1442 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UGrokItApi_android</name>
+    </assembly>
+    <members>
+        <member name="T:UGrokItApi.Ugi">
+            <summary>
+            Singleton class that implements the U Grok It API.
+            The Ugi class is used as a singleton - only one instance of the class exists.
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.Ugi.ActivityOnCreate(Android.App.Activity,System.Boolean)">
+            <summary>
+            ANDROID ONLY: Notify Ugi that an Activity is created
+            </summary>
+            <param name="activity">Activity being created</param>
+            <param name="handleScreenRotation">
+                <c>true</c> to handle screen rotations</param>
+        </member>
+        <member name="M:UGrokItApi.Ugi.ActivityOnDestroy(Android.App.Activity)">
+            <summary>
+            ANDROID ONLY: Notify Ugi that an Activity is being destroyed
+            </summary>
+            <param name="activity">Activity being destroyed</param>
+        </member>
+        <member name="M:UGrokItApi.Ugi.ActivityOnResume(Android.App.Activity)">
+            <summary>
+            ANDROID ONLY: Notify Ugi that an activity is resuming
+            </summary>
+            <param name="activity">Activity being resumed</param>
+        </member>
+        <member name="M:UGrokItApi.Ugi.ActivityOnPause(Android.App.Activity)">
+            <summary>
+            ANDROID ONLY: Notify Ugi that an activity is pausing
+            </summary>
+            <param name="activity">Activity being paused</param>
+        </member>
+        <member name="P:UGrokItApi.Ugi.CurrentActivity">
+            <summary>
+            ANDROID ONLY: Get the current tracked activity
+            </summary>
+            <value>The current activity.</value>
+        </member>
+        <member name="T:UGrokItApi.Ugi.AudioJackLocation">
+            <summary>
+            User settings for audio jack location
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.AudioJackLocation.Default">
+            <summary>
+            Use the SDK's notion of where the audio jack is
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.AudioJackLocation.Top">
+            <summary>
+            Audio jack is on top of the device
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.AudioJackLocation.Bottom">
+            <summary>
+            Audio jack is on bottom of the device
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.Ugi.GetAudioJackLocationPreference">
+            <summary>
+            Gets or sets the get audio jack location preference.
+            </summary>
+            <value>The get audio jack location preference.</value>
+        </member>
+        <member name="M:UGrokItApi.Ugi.Singleton">
+            <summary>
+            Get the singleton object
+            </summary>
+            <returns>The singleton object</returns>
+        </member>
+        <member name="M:UGrokItApi.Ugi.CreateSingleton(Android.Content.Context)">
+            <summary>
+            ANDROID ONLY: Create a Ugi object
+            Only one Ugi object may be created. This is normally called in onCreate() in the Application object.
+            </summary>
+            <param name="context">Context object (usually the application)</param>
+        </member>
+        <member name="M:UGrokItApi.Ugi.CreateSingleton">
+            <summary>
+            iOS ONLY: Create a Ugi object
+            Only one Ugi object may be created. This is usually done in your application
+            delegate's didFinishLaunchingWithOptions: method or in main.c.
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.Ugi.OpenConnection">
+            <summary>
+            Try to open a connection to the reader.
+            openConnection returns immediately, it does not wait for a connection to the reader
+            to actually be established. If a reader is connected, the connection takes 400-500ms
+            (just under half a second) for the connection sequence. Your app can get notification
+            of connection state changes by calling addConnectionStateListener()
+            This method is normally called in onCreate but may be called
+            elsewhere if the app does not want to always be connected to the reader.
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.Ugi.CloseConnection">
+            <summary>
+            Close connection to the reader.
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.Ugi.IsInOpenConnection">
+            <summary>
+            Has openConnection has been called (without a corresponding call to closeConnecion)
+            </summary>
+            <value>
+                <c>true</c> if in open connection</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.IsAnythingPluggedIntoAudioJack">
+            <summary>
+            Is anything is plugged into the audio jack (as best we can determine)
+            </summary>
+            <value>
+                <c>true</c> if anything is plugged into audio jack</value>
+        </member>
+        <member name="T:UGrokItApi.Ugi.ConnectionStates">
+            <summary>
+            States for the connection
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.ConnectionStates.NotConnected">
+            <summary>
+            Nothing connected to audio port
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.ConnectionStates.Connecting">
+            <summary>
+            Something connected to audio port, trying to connect
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.ConnectionStates.IncompatibleReader">
+            <summary>
+            Connected to an reader with incompatible firmware
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.ConnectionStates.Connected">
+            <summary>
+            Connected to reader
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ConnectionState">
+            <summary>
+            Gets the current connection state
+            </summary>
+            <value>The state of the connection.</value>
+        </member>
+        <member name="T:UGrokItApi.Ugi.ConnectionStateDelegate">
+            <summary>
+            Delegate for connection state notifications
+            </summary>
+            <param name="state">New connection state</param>
+        </member>
+        <member name="F:UGrokItApi.Ugi.ConnectionStateChanged">
+            <summary>
+            Connection state delegate list
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.Ugi.IsConnected">
+            <summary>
+            Gets a value indicating whether a reader is connected.
+            </summary>
+            <value>
+                <c>true</c> if a reader is connected</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ActiveInventory">
+            <summary>
+            Get the active inventory, if any
+            </summary>
+            <value>The active inventory.</value>
+        </member>
+        <member name="M:UGrokItApi.Ugi.StartInventory(UGrokItApi.IUgiInventoryDelegate,UGrokItApi.UgiRfidConfiguration,System.Collections.Generic.List{UGrokItApi.UgiEpc})">
+            <summary>
+            Start running inventory to find specific EPCs
+            If one or more EPCs are passed in, only they will be reported back to the delegate
+            If no EPCs are passed (epcs=null, numEpcs=0) then all EPCs will be reported back to the delegate
+            If a small number of EPCs are passed, filtering is done on the
+            reader and the reader plays sounds immediately (with no host interaction).
+            Otherwise filtering is done on the host, and the host tells the reader when to play sounds
+            which is slower.
+            The inventory code keeps a history for each tag. This history is the number of finds for each
+            time interval. The default is to store history for 20 intervals of 500ms each. This default can
+            be modified via properties: inventoryIntervalMSec and inventoryHistoryDepth.
+            </summary>
+            <param name="inventoryDelegate">Delegate object to report back to</param>
+            <param name="configuration">Configuration to use</param>
+            <param name="epcs">EPCs to find</param>
+            <returns>UgiInventory object that will hold the results of this inventory</returns>
+        </member>
+        <member name="M:UGrokItApi.Ugi.StartInventoryIgnoringEpcs(UGrokItApi.IUgiInventoryDelegate,UGrokItApi.UgiRfidConfiguration,System.Collections.Generic.List{UGrokItApi.UgiEpc})">
+            <summary>
+            Start running inventory, ignoring specific EPCs
+            </summary>
+            <param name="inventoryDelegate">Delegate object to report back to</param>
+            <param name="configuration">Configuration to use</param>
+            <param name="epcsToIgnore">EPCs to ignore</param>
+            <returns>UgiInventory object that will hold the results of this inventory</returns>
+        </member>
+        <member name="M:UGrokItApi.Ugi.StartInventory(UGrokItApi.IUgiInventoryDelegate,UGrokItApi.UgiRfidConfiguration)">
+            <summary>
+            Start running inventory to find any tags
+            </summary>
+            <param name="inventoryDelegate">Delegate object to report back to</param>
+            <param name="configuration">Configuration to use</param>
+            <returns>UgiInventory object that will hold the results of this inventory</returns>
+        </member>
+        <member name="M:UGrokItApi.Ugi.StartInventory(UGrokItApi.IUgiInventoryDelegate,UGrokItApi.UgiRfidConfiguration,UGrokItApi.UgiEpc)">
+            <summary>
+            Start running inventory to find one specific tag
+            </summary>
+            <param name="inventoryDelegate">Delegate object to report back to</param>
+            <param name="configuration">Configuration to use</param>
+            <param name="epc">EPC to find</param>
+            <returns>UgiInventory object that will hold the results of this inventory</returns>
+        </member>
+        <member name="P:UGrokItApi.Ugi.RequiredProtocolVersion">
+            <summary>
+            Protocol version that the host requires
+            </summary>
+            <value>The required protocol version.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.SupportedProtocolVersion">
+            <summary>
+            Protocol version that the host supports
+            </summary>
+            <value>The supported protocol version.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ReaderProtocolVersion">
+            <summary>
+            Protocol version of the reader
+            </summary>
+            <value>The reader protocol version.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ReaderHardwareModel">
+            <summary>
+            Reader's model
+            </summary>
+            <value>The reader hardware model.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ReaderHardwareRevision">
+            <summary>
+            Reader's hardware version
+            </summary>
+            <value>The reader hardware revision.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.FirmwareVersionMajor">
+            <summary>
+            Firmware version in the reader, major
+            </summary>
+            <value>The firmware version major.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.FirmwareVersionMinor">
+            <summary>
+            Firmware version in the reader, minor
+            </summary>
+            <value>The firmware version minor.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.FirmwareVersionBuild">
+            <summary>
+            Firmware version in the reader, build
+            </summary>
+            <value>The firmware version build.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ReaderSerialNumber">
+            <summary>
+            Reader's unique serial number
+            </summary>
+            <value>The reader serial number.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.RegionName">
+            <summary>
+            Name of the region of the world the Grokker is set to operate in
+            </summary>
+            <value>The name of the region.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.MaxPower">
+            <summary>
+            Maximum power that the reader can use, in dBm
+            </summary>
+            <value>The max power.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.MaxSensitivity">
+            <summary>
+            Maximum sensitivity that the reader can use, in dBm
+            </summary>
+            <value>The max sensitivity.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.UserMustSetRegion">
+            <summary>
+            True if the user must choose the region of the world to operate in. If this is true then the Grokker
+            will not run inventory until the region is set
+            </summary>
+            <value>
+                <c>true</c> if user must set region; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.UserCanSetRegion">
+            <summary>
+            True if the user can set the region (device attached and has sufficiently recent firmware).
+            </summary>
+            <value>
+                <c>true</c> if user can set region; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.DeviceInitializedSuccessfully">
+            <summary>
+            true if device initialized successfully
+            </summary>
+            <value>
+                <c>true</c> if device initialized successfully; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.ReaderDescription">
+            <summary>
+            description of the reader, generally used for debugging
+            </summary>
+            <value>The reader description.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.SdkVersionMajor">
+            <summary>
+            SDK Version, major
+            Version 1.7.3 - February 18, 2015 - Reader protocol 19
+            First Xamarin SDK
+            Version 1.7.5 - March 9, 2015 - Reader protocol 19
+            Bug fix for passing both a select mask and EPCs to startInventory
+            Bug fix for connection state transitions while running inventory
+            Version 1.7.6 - March 26, 2015 - Reader protocol 19
+            Better handling of protocol errors while starting/stopping inventory
+            Version 1.7.7 - April 8, 2015 - Reader protocol 19
+            Minor bug fixes with setting region
+            </summary>
+            <value>The sdk version major.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.SdkVersionMinor">
+            <summary>
+            SDK Version, minor
+            </summary>
+            <value>The sdk version minor.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.SdkVersionBuild">
+            <summary>
+            SDK Version, build
+            </summary>
+            <value>The sdk version build.</value>
+        </member>
+        <member name="P:UGrokItApi.Ugi.SdkVersionDateTime">
+            <summary>
+            SDK Version, date/time
+            </summary>
+            <value>When the SDK was built</value>
+        </member>
+        <member name="T:UGrokItApi.Ugi.BatteryInfo">
+            <summary>
+            Information returned by GetBatteryInfo
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.BatteryInfo.CanScan">
+            <summary>
+            true if battery is capable of scanning
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.BatteryInfo.ExternalPowerIsConnected">
+            <summary>
+            true if external power is connected
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.BatteryInfo.IsCharging">
+            <summary>
+            true if battery is charging
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.BatteryInfo.MinutesRemaining">
+            <summary>
+            Minutes of scanning remaining
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.BatteryInfo.PercentRemaining">
+            <summary>
+            Percent of scanning time remaining
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.BatteryInfo.Voltage">
+            <summary>
+            Battery voltage
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.Ugi.GetBatteryInfo">
+            <summary>
+            Get battery information from the reader
+            </summary>
+            <returns>The battery info.</returns>
+        </member>
+        <member name="T:UGrokItApi.Ugi.LoggingTypes">
+            <summary>
+            Types of logging.
+            The default is "State" logging. The internal logging types are primarily for debugging
+            of the API itself.
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalByteProtocol">
+            <summary>
+            Lowest level communication protocol, connection handshaking and byte send/receive
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalConnectionErrors">
+            <summary>
+            Low level communication errors
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalConnectionState">
+            <summary>
+            Low level connection state changes
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalPacketProtocol">
+            <summary>
+            Packet send/receive
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalCommand">
+            <summary>
+            Command send/receive
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalInventory">
+            <summary>
+            Low-level inventory
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InternalFirmwareUpdate">
+            <summary>
+            Low-level firmware update
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.State">
+            <summary>
+            Connection and inventory state
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.Inventory">
+            <summary>
+            Inventory activity
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.Ugi.LoggingTypes.InventoryDetail">
+            <summary>
+            Inventory details
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.Ugi.LoggingStatus">
+            <summary>
+            Gets or sets the logging status.
+            </summary>
+            <value>The logging status</value>
+        </member>
+        <member name="M:UGrokItApi.Ugi.InvokeSetRegion">
+            <summary>
+            Invoke the "set region" sequence
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.Ugi.InvokeAudioReconfiguration">
+            <summary>
+            Invoke the audio reconfiguration process
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.Ugi.InvokeAudioJackLocation">
+            <summary>
+            Invoke the audio jack location setting process
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiEpc">
+            <summary>
+            UgiEpc encapsulates an EPC code.  Immutable.
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiEpc.MAX_EPC_LENGTH">
+            <summary>
+            Maximum length of an EPC code, in bytes
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiEpc.UGI_MIN_EPC_LENGTH">
+            <summary>
+            Minimum length of an EPC code, in bytes
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.UgiEpc.FromBytes(System.Byte[])">
+            <summary>
+            Create a UgiEpc object from an array of bytes
+            </summary>
+            <returns>EPC</returns>
+            <param name="rawEpc">Raw bytes to create object from</param>
+        </member>
+        <member name="M:UGrokItApi.UgiEpc.FromString(System.String)">
+            <summary>
+            Create a UgiEpc object from a string of hex digits
+            </summary>
+            <returns>EPC</returns>
+            <param name="s">String to create object from</param>
+        </member>
+        <member name="M:UGrokItApi.UgiEpc.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:UGrokItApi.UgiEpc" />.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:UGrokItApi.UgiEpc" />.</param>
+            <returns>
+                <c>true</c> if the specified <see cref="T:System.Object" /> is equal to the current
+            <see cref="T:UGrokItApi.UgiEpc" />; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:UGrokItApi.UgiEpc.GetHashCode">
+            <summary>
+            Serves as a hash function for a <see cref="T:UGrokItApi.UgiEpc" /> object.
+            </summary>
+            <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
+        </member>
+        <member name="M:UGrokItApi.UgiEpc.ToString">
+            <summary>
+            Convert to a string of hex digits
+            </summary>
+            <returns>EPC as a String</returns>
+        </member>
+        <member name="P:UGrokItApi.UgiEpc.Bytes">
+            <summary>
+            Get the raw bytes for the EPC
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.UgiEpc.ToTagURI">
+            <summary>
+            Convert to a tag URI string (as defined by the EPC spec)
+            </summary>
+            <returns>The tag URI.</returns>
+        </member>
+        <member name="T:UGrokItApi.UgiTagReadState">
+            <summary>
+            The moment-in-time read state of a tag. This object is immutable.
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.Tag">
+            <summary>
+            Tag this state is associated with this TagReadState
+            </summary>
+            <value>The tag</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.Timestamp">
+            <summary>
+            When this state was created
+            </summary>
+            <value>When created</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.IsVisible">
+            <summary>
+            Is the tag currently visible?
+            </summary>
+            <value>
+                <c>true</c> if this tag is visible</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.TotalReads">
+            <summary>
+            Total number of reads (since inventory started)
+            </summary>
+            <value>Total reads</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.MostRecentRead">
+            <summary>
+            When this tag was most recently read
+            </summary>
+            <value>The most recent read.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.MostRecentRssiI">
+            <summary>
+            Most recent RSSI value, I channel
+            </summary>
+            <value>RSSI value, I channel</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.MostRecentRssiQ">
+            <summary>
+            Most recent RSSI value, Q channel
+            </summary>
+            <value>RSSI value, Q channel</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.ReadHistory">
+            <summary>
+            Get the read history
+            </summary>
+            <value>The read history.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTagReadState.ReadHistoryString">
+            <summary>
+            Get a string representing the read history of the tag, generally for debugging
+            </summary>
+            <value>The read history string.</value>
+        </member>
+        <member name="T:UGrokItApi.UgiTag">
+            <summary>
+            A tag found by the reader: an EPC and additional data. This object will change if the
+            tag's EPC is changed or its memory is written.
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.UgiTag.Epc">
+            <summary>
+            Gets the epc.
+            </summary>
+            <value>Tag's EPC</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTag.FirstRead">
+            <summary>
+            When this tag was first read
+            </summary>
+            <value>The first read.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTag.TidBytes">
+            <summary>
+            Tag's TID memory, if we have read it
+            </summary>
+            <value>TID memory</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTag.UserBytes">
+            <summary>
+            Tag's USER memory, if we have read it
+            </summary>
+            <value>USER memory</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTag.ReservedBytes">
+            <summary>
+            Tag's RESERVED memory, if we have read it
+            </summary>
+            <value>RESERVED memory</value>
+        </member>
+        <member name="P:UGrokItApi.UgiTag.ReadState">
+            <summary>
+            Get the read state for this tag at this moment in time
+            </summary>
+            <value>Read state for this tag</value>
+        </member>
+        <member name="T:UGrokItApi.UgiDetailedPerReadData">
+            <summary>
+            Data for each tag read, sent if detailedPerReadData is true in the RFID configuration
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.UgiDetailedPerReadData.Timestamp">
+            <summary>
+            When the read happened
+            </summary>
+            <value>When read</value>
+        </member>
+        <member name="P:UGrokItApi.UgiDetailedPerReadData.Frequency">
+            <summary>
+            Frequency the find happened at
+            </summary>
+            <value>Frequency</value>
+        </member>
+        <member name="P:UGrokItApi.UgiDetailedPerReadData.RssiI">
+            <summary>
+            RSSI value, I channel
+            </summary>
+            <value>RSSI value, I channel</value>
+        </member>
+        <member name="P:UGrokItApi.UgiDetailedPerReadData.RssiQ">
+            <summary>
+            RSSI value, Q channel
+            </summary>
+            <value>RSSI value, Q channel</value>
+        </member>
+        <member name="P:UGrokItApi.UgiDetailedPerReadData.ReadData1">
+            <summary>
+            Read data (#1)
+            </summary>
+            <value>Data</value>
+        </member>
+        <member name="P:UGrokItApi.UgiDetailedPerReadData.ReadData2">
+            <summary>
+            Read data (#2)
+            </summary>
+            <value>Data</value>
+        </member>
+        <member name="M:UGrokItApi.UgiDetailedPerReadData.ToString">
+            <summary>
+            Returns a <see cref="T:System.String" /> that represents the current <see cref="T:UGrokItApi.UgiDetailedPerReadData" />.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:UGrokItApi.UgiDetailedPerReadData" />.</returns>
+        </member>
+        <member name="T:UGrokItApi.IUgiInventoryDelegate">
+            <summary>
+            A UgiInventoryDelegate object is passed to the StartInventory method
+            of the Ugi singleton. This object receives notification when inventory events happen.
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryDidStart">
+            <summary>
+            The reader has started doing inventory.
+            This can happen multiple times during a single startInventory call, since the reader
+            can be connected and disconnected from the host.
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryDidStop(UGrokItApi.UgiInventory.InventoryResults)">
+            <summary>
+            The reader has stopped doing inventory.
+            This can happen multiple times during a single startInventory call, since the reader
+            can be connected and disconnected from the host
+            </summary>
+            <param name="result">Result of the inventory</param>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryFilter(UGrokItApi.UgiEpc)">
+            <summary>
+            Determine whether a newly found tag should be filtered out (not sent to inventoryTagFound
+            or inventoryTagChanged, not put into the tags array).
+            </summary>
+            <param name="epc">The new EPC the reader has found</param>
+            <returns>
+                <c>true</c>to filter out the EPC</returns>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryTagChanged(UGrokItApi.UgiTag,System.Boolean)">
+            <summary>
+            The visibility of a tag has changed.
+            - A tag has been found for the first time
+            - A tag has not been seen for the history period (interval * depth)
+            - A tag that had not been seen for the history period has reappeared
+            </summary>
+            <param name="tag">The tag that has changed</param>
+            <param name="firstFind">
+                <c>true</c> if this is the first time this tag has been found</param>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryTagFound(UGrokItApi.UgiTag,UGrokItApi.UgiDetailedPerReadData[])">
+            <summary>
+            A new tag has been found
+            </summary>
+            <param name="tag">The tag that has been found</param>
+            <param name="detailedPerReadData">Array of UgiDetailedPerReadData obejcts, if detailed per-read data was requested</param>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryTagSubsequentFinds(UGrokItApi.UgiTag,System.Int32,UGrokItApi.UgiDetailedPerReadData[])">
+            <summary>
+            A previously found tag has been found again
+            </summary>
+            <param name="tag">The tag</param>
+            <param name="count">The number of finds since inventoryTagSubsequentFinds was last called</param>
+            <param name="detailedPerReadData">Array of UgiDetailedPerReadData obejcts, if detailed per-read data was requested</param>
+        </member>
+        <member name="M:UGrokItApi.IUgiInventoryDelegate.InventoryHistoryInterval">
+            <summary>
+            A history interval has passed
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory">
+            <summary>
+            An inventory session
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.InventoryResults">
+            <summary>
+            Inventory results, passed to InventoryDidStop
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.Ok">
+            <summary>
+            Inventory completed normally
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.ErrorSending">
+            <summary>
+            Error sending inventory command to reader
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.LostConnection">
+            <summary>
+            Lost connection
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.HardwareError">
+            <summary>
+            Reader hardware error
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.BatteryTooLow">
+            <summary>
+            Battery level is too low to run inventory
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.TemperatureTooHigh">
+            <summary>
+            Grokker temperature is too high. This should only happen in a very hot environment
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.NotProvisioned">
+            <summary>
+            Grokker is not provisioned. This should never happen
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.InventoryResults.RegionNotSet">
+            <summary>
+            The region (of the world) has not been set
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.StopInventoryDelegate">
+            <summary>
+            Delegate passed to StopInventory()
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.StopInventory(UGrokItApi.UgiInventory.StopInventoryDelegate)">
+            <summary>
+            Stop running inventory with a completion to call when completed
+            </summary>
+            <param name="del">Delegate to call when completed</param>
+        </member>
+        <member name="P:UGrokItApi.UgiInventory.Configuration">
+            <summary>
+            The configuration used for this inventory
+            </summary>
+            <value>The rfid configuration.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiInventory.StartTime">
+            <summary>
+            When this inventory started
+            </summary>
+            <value>The start time.</value>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.TagByEpc(UGrokItApi.UgiEpc)">
+            <summary>
+            Get a tag by EPC
+            </summary>
+            <param name="epc">Epc</param>
+            <returns>Tag</returns>
+        </member>
+        <member name="P:UGrokItApi.UgiInventory.Tags">
+            <summary>
+            Get all the tags found in this inventory
+            </summary>
+            <value>The tags.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiInventory.IsPaused">
+            <summary>
+            Is inventory paused?
+            </summary>
+            <value>
+                <c>true</c> if paused</value>
+        </member>
+        <member name="P:UGrokItApi.UgiInventory.IsScanning">
+            <summary>
+            Is the Grokker actively scanning?
+            </summary>
+            <value>
+                <c>true</c> if scanning</value>
+        </member>
+        <member name="P:UGrokItApi.UgiInventory.NumInventoryRounds">
+            <summary>
+            Get the number of inventory rounds that the Grokker has run in this inventory
+            </summary>
+            <value>The number of inventory rounds.</value>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.PauseInventory">
+            <summary>
+            Stop running inventory temporarily (such as while a dialog box is displayed)
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.ResumeInventory">
+            <summary>
+            Restart inventory after a temporarily stop
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.ResumeInventory(UGrokItApi.UgiRfidConfiguration)">
+            <summary>
+            Restart inventory after a temporarily stop, using a new configuration
+            </summary>
+            <param name="configuration">New configuration to use</param>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.TagAccessReturnValues">
+            <summary>
+            Return values from ProgramTag, WriteTag, LockUnlockTag and ReadTag
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.TagAccessReturnValues.Ok">
+            <summary>
+            Access was successful
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.TagAccessReturnValues.WrongPassword">
+            <summary>
+            Incorrect password passed
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.TagAccessReturnValues.PasswordRequired">
+            <summary>
+            No password passed, but a password is required
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.TagAccessReturnValues.MemoryOverrun">
+            <summary>
+            Read/write to a memory locaion that does not exist on tht tag
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.TagAccessReturnValues.TagNotFound">
+            <summary>
+            Tag was not found
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.TagAccessReturnValues.GeneralError">
+            <summary>
+            General error
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.NO_PASSWORD">
+            <summary>
+            Default password, meaning the tag is not password protected
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.TagAccessDelegate">
+            <summary>
+            Delegate type for ProgramTag, WriteTag, LockUnlockTag
+            </summary>
+            <param name="tag">Tag accessed</param>
+            <param name="result">Result of the tag access</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.ProgramTag(UGrokItApi.UgiEpc,UGrokItApi.UgiEpc,System.Int32,UGrokItApi.UgiInventory.TagAccessDelegate)">
+            <summary>
+            Programs a tag.
+            This must be called while inventory is running. This method call returns immediately,
+            the delegate object is informed of the success or failure of the programming.
+            NOTE: the byte length of the newEpc must be the same as the oldEpc.
+            </summary>
+            <param name="oldEpc">EPC of tag to change</param>
+            <param name="newEpc">EPC to write to the tag</param>
+            <param name="password">Password to use (NO_PASSWORD for not password protected)</param>
+            <param name="completionDelegate">Code to execute after tag is programmed</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.WriteTag(UGrokItApi.UgiEpc,UGrokItApi.UgiRfidConfiguration.MemoryBank,System.Int32,System.Byte[],System.Byte[],System.Int32,UGrokItApi.UgiInventory.TagAccessDelegate)">
+            <summary>
+            Write memory.
+            This must be called while inventory is running. This method call returns immediately,
+            the delegate object is informed of the success or failure of the write.
+            </summary>
+            <param name="epc">EPC of tag to write to</param>
+            <param name="memoryBank">Memory bank to write to</param>
+            <param name="offset">Byte offset to write at (must be a multiple of 2)</param>
+            <param name="data">Data to write</param>
+            <param name="previousData">Previous value for this data (null if unknown or not available)</param>
+            <param name="password">Password to use (NO_PASSWORD for not password protected)</param>
+            <param name="completionDelegate">Code to execute after tag is written</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.SetTagAccessPassword(UGrokItApi.UgiEpc,System.Int32,System.Int32,UGrokItApi.UgiInventory.TagAccessDelegate)">
+            <summary>
+            Sets the tag's access password
+            </summary>
+            <param name="epc">EPC of tag to set the password for</param>
+            <param name="currentPassword">Current password (UGI_NO_PASSWORD if not password protected)</param>
+            <param name="newPassword">Password to set (UGI_NO_PASSWORD for not password protected)</param>
+            <param name="completionDelegate">Code to execute after tag's password is set</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.SetTagKillPassword(UGrokItApi.UgiEpc,System.Int32,System.Int32,UGrokItApi.UgiInventory.TagAccessDelegate)">
+            <summary>
+            Set a tag's kill password
+            </summary>
+            <param name="epc">EPC of tag to set the password for</param>
+            <param name="currentPassword">Current password (UGI_NO_PASSWORD if not password protected)</param>
+            <param name="killPassword">Kill password to set (UGI_NO_PASSWORD for not password protected)</param>
+            <param name="completionDelegate">Code to execute after tag's kill password is set</param>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.LockUnlockMaskAndAction">
+            <summary>
+            Definitions for value passed to lockUnlockTag choosing what banks to change the locked status for and what to change them to
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.KILL_PASSWORD_MASK_BIT_OFFSET">
+            <summary>
+            Offset for mask bits for kill password.
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.ACCESS_PASSWORD_MASK_BIT_OFFSET">
+            <summary>
+            Offset for mask bits for access password
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.EPC_MASK_BIT_OFFSET">
+            <summary>
+            Offset for mask bits for EPC memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.TID_MASK_BIT_OFFSET">
+            <summary>
+            Offset for mask bits for TID memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.USER_MASK_BIT_OFFSET">
+            <summary>
+            Offset for mask bits for USER memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.KILL_PASSWORD_ACTION_BIT_OFFSET">
+            <summary>
+            Offset for action bits for kill password
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.ACCESS_PASSWORD_ACTION_BIT_OFFSET">
+            <summary>
+            Offset for action bits for access password
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.EPC_ACTION_BIT_OFFSET">
+            <summary>
+            Offset for action bits for EPC memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.TID_ACTION_BIT_OFFSET">
+            <summary>
+            Offset for action bits for TID memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.USER_ACTION_BIT_OFFSET">
+            <summary>
+            Offset for action bits for USER memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.MASK_CHANGE_NONE">
+            <summary>
+            Mask: don't change
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.MASK_CHANGE_PERMALOCK">
+            <summary>
+            Mask: change permlock bit
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.MASK_CHANGE_WRITABLE">
+            <summary>
+            change writable bit
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.MASK_CHANGE_WRITABLE_AND_PERMALOCK">
+            <summary>
+            Mask: change permlock and writable bits
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.ACTION_WRITABLE">
+            <summary>
+            Action: writable
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.ACTION_PERMANENTLY_WRITABLE">
+            <summary>
+            Action: permanently writable
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.ACTION_WRITE_RESTRICTED">
+            <summary>
+            Action: write restricted (password required)
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiInventory.LockUnlockMaskAndAction.ACTION_PERMANENTLY_NOT_WRITABLE">
+            <summary>
+            Action: permanently not writable
+            </summary>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.LockUnlockTag(UGrokItApi.UgiEpc,System.Int32,System.Int32,UGrokItApi.UgiInventory.TagAccessDelegate)">
+            <summary>
+            Lock/unlock a tag
+            </summary>
+            <param name="epc">EPC of tag to lock/unlock</param>
+            <param name="maskAndAction">Description for which protection bits to change and what to change them to (UgiLockUnlockMaskAndAction)</param>
+            <param name="password">Password to use (NO_PASSWORD for not password protected)</param>
+            <param name="completionDelegate">Code to execute after tag is locked/unlocked</param>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.TagReadDelegate">
+            <summary>
+            Delegate type for ReadTag
+            </summary>
+            <param name="tag">Tag accessed</param>
+            <param name="data">Data read from tag</param>
+            <param name="result">Result of the tag access</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.ReadTag(UGrokItApi.UgiEpc,UGrokItApi.UgiRfidConfiguration.MemoryBank,System.Int32,System.Int32,System.Int32,UGrokItApi.UgiInventory.TagReadDelegate)">
+            <summary>
+            Read a tag's memory
+            </summary>
+            <param name="epc">EPC of tag to read</param>
+            <param name="memoryBank">Memory bank to read</param>
+            <param name="offset">Byte offset to read at (must be a multiple of 2)</param>
+            <param name="minNumBytes">Minimum number of bytes to read (must be a multiple of 2)</param>
+            <param name="maxNumBytes">Maximum number of bytes to read (must be a multiple of 2)</param>
+            <param name="completionDelegate">Code to execute after tag is read</param>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.TagCustomCommandDelegate">
+            <summary>
+            Delegate type for CustomCommandToTag
+            </summary>
+            <param name="tag">Tag accessed</param>
+            <param name="headerBit">true if the header bit was set in the response (usually used to indicate an error)</param>
+            <param name="response">Response to the command</param>
+            <param name="result">Result of the tag access</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.CustomCommandToTag(UGrokItApi.UgiEpc,System.Byte[],System.Int32,System.Int32,System.Int32,System.Int32,UGrokItApi.UgiInventory.TagCustomCommandDelegate)">
+            <summary>
+            Do a custom command to a tag
+            </summary>
+            <param name="epc">EPC of tag to send the custom command to</param>
+            <param name="command">Command bytes to send</param>
+            <param name="commandBits">Number of command bits to send</param>
+            <param name="responseBitLengthNoHeaderBit">Number of response bits to expect, if header bit
+            is not set in the response</param>
+            <param name="responseBitLengthWithHeaderBit">Number of response bits to expect, if header bit is
+            set in the response (if 0 then do not expect a header bit at all)</param>
+            <param name="receiveTimeoutUsec">Response timeout in uSec (some tags require more than the standard
+            for custom commands)</param>
+            <param name="completionDelegate">Code to execute after the custom command is executed</param>
+        </member>
+        <member name="T:UGrokItApi.UgiInventory.ChangePowerDelegate">
+            <summary>
+            Delegate type for ChangePower
+            </summary>
+            <param name="success">true if power changed successfully</param>
+        </member>
+        <member name="M:UGrokItApi.UgiInventory.ChangePower(System.Double,System.Double,System.Double,UGrokItApi.UgiInventory.ChangePowerDelegate)">
+            <summary>
+            Changes the power
+            </summary>
+            <param name="initialPowerLevel">Initial power level</param>
+            <param name="minPowerLevel">Minimum power level</param>
+            <param name="maxPowerLevel">Maximum power level</param>
+            <param name="completionDelegate">Code to execute after power is changed</param>
+        </member>
+        <member name="T:UGrokItApi.UgiRfidConfiguration">
+            <summary>
+            RFID configuration instances, used by startInventory(). Common configuration
+            instances are provided.
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiRfidConfiguration.SoundTypes">
+            <summary>
+            Sound types.
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.SoundTypes.None">
+            <summary>
+            Make no sounds
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.SoundTypes.GeigerCounter">
+            <summary>
+            Geiger counter sounds when epc(s) are found
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.SoundTypes.FirstFind">
+            <summary>
+            Found-item sound once when epc is first found
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.SoundTypes.FirstFindAndLast">
+            <summary>
+            Found-item sound once when epc is first found and special sound for last tag
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiRfidConfiguration.MemoryBank">
+            <summary>
+            References for the four RFID tag memory banks that can be written to
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.MemoryBank.Reserved">
+            <summary>
+            Gen2 RESERVED memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.MemoryBank.Epc">
+            <summary>
+            Gen2 EPC memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.MemoryBank.Tid">
+            <summary>
+            Gen2 TID memory bank
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.MemoryBank.User">
+            <summary>
+            Gen2 USER memory bank
+            </summary>
+        </member>
+        <member name="T:UGrokItApi.UgiRfidConfiguration.InventoryTypes">
+            <summary>
+            Pre-defined inventory types
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.InventoryTypes.LocateDistance">
+            <summary>
+            locate at a distance
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.InventoryTypes.InventoryShortRange">
+            <summary>
+            inventory (count) at short range, especially in dense environments
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.InventoryTypes.InventoryDistance">
+            <summary>
+            inventory (count) at a distance
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.InventoryTypes.LocateShortRange">
+            <summary>
+            locate at a short range
+            </summary>
+        </member>
+        <member name="F:UGrokItApi.UgiRfidConfiguration.InventoryTypes.LocateVeryShortRange">
+            <summary>
+            locate at very short range
+            </summary>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.InitialPowerLevel">
+            <summary>
+            Initial power level for running inventory, in dBm.
+            The reader will start at this power level, but will vary down to minPowerLevel and up to maxPowerLevel
+            </summary>
+            <value>The initial power level.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MinPowerLevel">
+            <summary>
+            Minimum power level for running inventory, in dBm
+            </summary>
+            <value>The minimum power level.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MaxPowerLevel">
+            <summary>
+            Maximum power level for running inventory, in dBm
+            </summary>
+            <value>The max power level.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.InitialQValue">
+            <summary>
+            Initial Q value to use when running inventory.
+            The reader will start with this Q value, but will vary down to minQValue and up to maxQValue based on the number of tags in the environment.
+            </summary>
+            <value>The initial Q value.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MinQValue">
+            <summary>
+            Minimum Q value to use when running inventory
+            </summary>
+            <value>The minimum Q value.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MaxQValue">
+            <summary>
+            Maximum Q value to use when running inventory
+            </summary>
+            <value>The max Q value.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.Session">
+            <summary>
+            Session number to use when running inventory (0, 1, 2 or 3)
+            </summary>
+            <value>The session.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.RoundsWithNoFindsToToggleAB">
+            <summary>
+            Number of inventory rounds with no finds after which to toggle A/B (0 = never toggle)
+            </summary>
+            <value>The rounds with no finds to toggle A/B</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.Sensitivity">
+            <summary>
+            Sensitivity level for running inventory, db
+            </summary>
+            <value>The sensitivity.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.PowerLevelWrite">
+            <summary>
+            Power level for writing tags, in dBm
+            </summary>
+            <value>The power level write.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SensitivityWrite">
+            <summary>
+            Sensitivity level for writing tags, dB
+            </summary>
+            <value>The sensitivity write.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SetListenBeforeTalk">
+            <summary>
+            true for reader to use this listen-before-talk setting, if allowed (default is false)
+            </summary>
+            <value>
+                <c>true</c> if set listen before talk; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.ListenBeforeTalk">
+            <summary>
+            true for reader to listen-before-talk (default is false)
+            </summary>
+            <value>
+                <c>true</c> if listen before talk; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MaxRoundsPerSecond">
+            <summary>
+            Maximum number of inventory rounds per second (0 = no limit)
+            </summary>
+            <value>The max rounds per second.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MinTidBytes">
+            <summary>
+            Minimum number of TID memory bank bytes to return. If the TID memory size is known, set minTidBytes=maxTidBytes
+            </summary>
+            <value>The minimum TID bytes.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MaxTidBytes">
+            <summary>
+            Maximum number of TID memory bank bytes to return (0 = don't read TID).
+            </summary>
+            <value>The max TID bytes.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MinUserBytes">
+            <summary>
+            Minimum number of USER memory bank bytes to return. If the USER memory size is known, set minUserBytes=maxUserBytes
+            </summary>
+            <value>The minimum USER bytes.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MaxUserBytes">
+            <summary>
+            Maximum number of USER memory bank bytes to return (0 = don't read USER).
+            </summary>
+            <value>The max USER bytes.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MinReservedBytes">
+            <summary>
+            Minimum number of RESERVED memory bank bytes to return. If the RESERVED memory size is known, set minReservedBytes=maxReservedBytes
+            </summary>
+            <value>The minimum RESERVED bytes.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.MaxReservedBytes">
+            <summary>
+            Maximum number of RESERVED memory bank bytes to return (0 = don't read RESERVED).
+            </summary>
+            <value>The max RESERVED bytes.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SelectMask">
+            <summary>
+            Mask to use in SELECT before inventory round. If nil (the default) then no SELECT is done before each inventory
+            </summary>
+            <value>The select mask.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SelectMaskBitLength">
+            <summary>
+            Length of the mask, in bits. If zero, then selectMask.length*8 is used
+            </summary>
+            <value>The length of the select mask bit.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SelectOffset">
+            <summary>
+            Bit offset for SELECT
+            </summary>
+            <value>The select offset.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SelectBank">
+            <summary>
+            Memory bank for SELECT
+            </summary>
+            <value>The select bank.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.Continual">
+            <summary>
+            true to run inventory until stopped, NO to run inventory once (default is true)
+            </summary>
+            <value>
+                <c>true</c> if continual; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.ReportRssi">
+            <summary>
+            true for reader to report RSSI data (default is false)
+            </summary>
+            <value>
+                <c>true</c> if report rssi; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.DetailedPerReadData">
+            <summary>
+            true for reader to report detailed data for each read (default is false)
+            </summary>
+            <value>
+                <c>true</c> if detailed per read data; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.DetailedPerReadNumReads">
+            <summary>
+            Number of words for reader to read every time the tags is read (0, 1, or 2)
+            </summary>
+            <value>The detailed per read number reads.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.DetailedPerReadMemoryBank1">
+            <summary>
+            memory bank #1 to read for detailed per-read
+            </summary>
+            <value>The detailed per read memory bank1.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.DetailedPerReadWordOffset1">
+            <summary>
+            word offset #1 to read for detailed per-read
+            </summary>
+            <value>The detailed per read word offset1.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.DetailedPerReadMemoryBank2">
+            <summary>
+            memory bank #2 to read for detailed per-read
+            </summary>
+            <value>The detailed per read memory bank2.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.DetailedPerReadWordOffset2">
+            <summary>
+            word offset #2 to read for detailed per-read
+            </summary>
+            <value>The detailed per read word offset2.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.ReportSubsequentFinds">
+            <summary>
+            true to report subsequent finds
+            </summary>
+            <value>
+                <c>true</c> if report subsequent finds; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.SoundType">
+            <summary>
+            Type of sounds to make when tags are found
+            </summary>
+            <value>The type of the sound.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.Volume">
+            <summary>
+            Volume level (0...1)
+            </summary>
+            <value>The volume.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.HistoryIntervalMSec">
+            <summary>
+            Length of each history period (default is 500ms)
+            </summary>
+            <value>The history interval M sec.</value>
+        </member>
+        <member name="P:UGrokItApi.UgiRfidConfiguration.HistoryDepth">
+            <summary>
+            Number of history periods (default is 20)
+            </summary>
+            <value>The history depth.</value>
+        </member>
+        <member name="M:UGrokItApi.UgiRfidConfiguration.ConfigWithInventoryType(UGrokItApi.UgiRfidConfiguration.InventoryTypes)">
+            <summary>
+            Create a configuration object from a pre-defined inventory type
+            </summary>
+            <param name="type">InventoryTypes.xxx</param>
+            <returns>Configuration</returns>
+        </member>
+    </members>
+</doc>

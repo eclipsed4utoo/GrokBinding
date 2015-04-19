@@ -68,7 +68,7 @@ namespace GrokBinding.UI
 
 		#region Button Clicks
 
-		async partial void ConnectButton_TouchUpInside (UIButton sender)
+		partial void ConnectButton_TouchUpInside (UIButton sender)
 		{
 			if (!CurrentUgi.IsAnythingPluggedIntoAudioJack)
 			{
@@ -77,15 +77,10 @@ namespace GrokBinding.UI
 			}
 
 			ConnectionStateLabel.Text = "Connecting...";
-
-			await Task.Run (async () =>
-			{
-				await Task.Delay (2000);
-				CurrentUgi.OpenConnection ();
-			});
+			CurrentUgi.OpenConnection ();
 		}
 
-		async partial void DisconnectButton_TouchUpInside (UIButton sender)
+		partial void DisconnectButton_TouchUpInside (UIButton sender)
 		{
 			if (!CurrentUgi.IsAnythingPluggedIntoAudioJack)
 			{
@@ -95,39 +90,29 @@ namespace GrokBinding.UI
 
 			ConnectionStateLabel.Text = "Disconnecting...";
 
-			await Task.Run (async () =>
-			{
-				await Task.Delay (2000);
-				CurrentUgi.CloseConnection ();
-			});
+			CurrentUgi.CloseConnection ();
+
+			ConnectionStateLabel.Text = "Disconnected";
 		}
 
-		async partial void ReadTagsStartButton_TouchUpInside (UIButton sender)
+		partial void ReadTagsStartButton_TouchUpInside (UIButton sender)
 		{
 			ConnectionStateLabel.Text = "Starting Read...";
-			await Task.Run (async () =>
-			{
-				await Task.Delay (1000);
 
-				UgiRfidConfiguration config = UgiRfidConfiguration.ConfigWithInventoryType (UgiRfidConfiguration.InventoryTypes.LocateVeryShortRange);
-				config.SoundType = UgiRfidConfiguration.SoundTypes.None;
-
-				_runningInventory = CurrentUgi.StartInventory(this, config);
-			});
+			UgiRfidConfiguration config = UgiRfidConfiguration.ConfigWithInventoryType (UgiRfidConfiguration.InventoryTypes.LocateVeryShortRange);
+			config.SoundType = UgiRfidConfiguration.SoundTypes.None;
+			_runningInventory = CurrentUgi.StartInventory(this, config);
 
 			ConnectionStateLabel.Text = "Readings tags...";
 		}
 
-		async partial void ReadTagsStopButton_TouchUpInside (UIButton sender)
+		partial void ReadTagsStopButton_TouchUpInside (UIButton sender)
 		{
 			ConnectionStateLabel.Text = "Stopping Read...";
-			await Task.Run (async () =>
-			{
-				await Task.Delay (1000);
-
-				if (_runningInventory != null || CurrentUgi.ActiveInventory != null)
-					_runningInventory.StopInventory (() => {});
-			});
+			if (_runningInventory != null || CurrentUgi.ActiveInventory != null)
+				_runningInventory.StopInventory (() => {});
+			
+			ConnectionStateLabel.Text = "Reading Stopped";
 		}
 
 		#endregion
@@ -136,37 +121,43 @@ namespace GrokBinding.UI
 
 		public void InventoryDidStart ()
 		{
-			throw new NotImplementedException ();
+			Console.WriteLine ("Inventory Did Start");
 		}
 
 		public void InventoryDidStop (UgiInventory.InventoryResults result)
 		{
-			throw new NotImplementedException ();
+			Console.WriteLine ("Inventory Did Stop");
 		}
 
 		public bool InventoryFilter (UgiEpc epc)
 		{
-			throw new NotImplementedException ();
+			return false;
 		}
 
 		public void InventoryTagChanged (UgiTag tag, bool firstFind)
 		{
-			throw new NotImplementedException ();
+			
 		}
 
 		public void InventoryTagFound (UgiTag tag, UgiDetailedPerReadData[] detailedPerReadData)
 		{
-			throw new NotImplementedException ();
+			var shouldAddNewLine = !string.IsNullOrEmpty (TagsTextView.Text);
+			var epcTag = tag.Epc.ToString ();
+
+			if (shouldAddNewLine)
+				TagsTextView.Text += "\n" + epcTag;
+			else
+				TagsTextView.Text += epcTag;
 		}
 
 		public void InventoryTagSubsequentFinds (UgiTag tag, int count, UgiDetailedPerReadData[] detailedPerReadData)
 		{
-			throw new NotImplementedException ();
+			Console.WriteLine ("Inventory subsequent finds");
 		}
 
 		public void InventoryHistoryInterval ()
 		{
-			throw new NotImplementedException ();
+			
 		}
 
 		#endregion

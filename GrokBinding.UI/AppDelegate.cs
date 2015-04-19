@@ -17,6 +17,7 @@ namespace GrokBinding.UI
 		public AppDelegate() : base()
 		{
 			Ugi.CreateSingleton ();
+//			Ugi.Singleton ().OpenConnection ();
 		}
 		
 		public override UIWindow Window {

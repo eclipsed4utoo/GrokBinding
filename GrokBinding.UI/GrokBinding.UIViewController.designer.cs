@@ -42,10 +42,6 @@ namespace GrokBinding.UI
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UITextView TagsTextView { get; set; }
 
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UITableView TagTableView { get; set; }
-
 		[Action ("ConnectButton_TouchUpInside:")]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void ConnectButton_TouchUpInside (UIButton sender);
@@ -91,10 +87,6 @@ namespace GrokBinding.UI
 			if (TagsTextView != null) {
 				TagsTextView.Dispose ();
 				TagsTextView = null;
-			}
-			if (TagTableView != null) {
-				TagTableView.Dispose ();
-				TagTableView = null;
 			}
 		}
 	}
