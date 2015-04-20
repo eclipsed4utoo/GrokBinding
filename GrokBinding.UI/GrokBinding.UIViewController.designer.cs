@@ -24,6 +24,10 @@ namespace GrokBinding.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UILabel CurrentTagEPCLabel { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton DisconnectButton { get; set; }
 
 		[Outlet]
@@ -32,11 +36,27 @@ namespace GrokBinding.UI
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
+		UITextField NewTagEPCTextField { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton ReadTagsStartButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIButton ReadTagsStopButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton SetTagButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton StartEditingButton { get; set; }
+
+		[Outlet]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		UIButton StopEditingButton { get; set; }
 
 		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
@@ -58,6 +78,18 @@ namespace GrokBinding.UI
 		[GeneratedCode ("iOS Designer", "1.0")]
 		partial void ReadTagsStopButton_TouchUpInside (UIButton sender);
 
+		[Action ("SetTagButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void SetTagButton_TouchUpInside (UIButton sender);
+
+		[Action ("StartEditingButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void StartEditingButton_TouchUpInside (UIButton sender);
+
+		[Action ("StopEditingButton_TouchUpInside:")]
+		[GeneratedCode ("iOS Designer", "1.0")]
+		partial void StopEditingButton_TouchUpInside (UIButton sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (ConnectButton != null) {
@@ -68,6 +100,10 @@ namespace GrokBinding.UI
 				ConnectionStateLabel.Dispose ();
 				ConnectionStateLabel = null;
 			}
+			if (CurrentTagEPCLabel != null) {
+				CurrentTagEPCLabel.Dispose ();
+				CurrentTagEPCLabel = null;
+			}
 			if (DisconnectButton != null) {
 				DisconnectButton.Dispose ();
 				DisconnectButton = null;
@@ -76,6 +112,10 @@ namespace GrokBinding.UI
 				GrokPluggedInStateLabel.Dispose ();
 				GrokPluggedInStateLabel = null;
 			}
+			if (NewTagEPCTextField != null) {
+				NewTagEPCTextField.Dispose ();
+				NewTagEPCTextField = null;
+			}
 			if (ReadTagsStartButton != null) {
 				ReadTagsStartButton.Dispose ();
 				ReadTagsStartButton = null;
@@ -83,6 +123,18 @@ namespace GrokBinding.UI
 			if (ReadTagsStopButton != null) {
 				ReadTagsStopButton.Dispose ();
 				ReadTagsStopButton = null;
+			}
+			if (SetTagButton != null) {
+				SetTagButton.Dispose ();
+				SetTagButton = null;
+			}
+			if (StartEditingButton != null) {
+				StartEditingButton.Dispose ();
+				StartEditingButton = null;
+			}
+			if (StopEditingButton != null) {
+				StopEditingButton.Dispose ();
+				StopEditingButton = null;
 			}
 			if (TagsTextView != null) {
 				TagsTextView.Dispose ();
